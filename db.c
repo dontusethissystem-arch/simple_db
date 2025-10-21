@@ -124,7 +124,7 @@ int main(void){
 	add_column(users, "uid", 	STRING);
 	add_column(users, "name", STRING);
 	add_column(users, "age",  INT);
-	val_t vals1[3] = {{.string="123"}, {.string="malinga"}, {.i=23}};
+	val_t vals1[3] = {{.string="123"}, {.string="Malinga"}, {.i=23}};
 	val_t vals2[3] = {{.string="124"}, {.string="Nagaraj"}, {.i=21}};
 	val_t vals3[3] = {{.string="125"}, {.string="Shree Nath"}, {.i=21}};
 	add_row(users, vals1);
