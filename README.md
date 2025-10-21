@@ -1,4 +1,4 @@
-```markdown
+
 # Database Library
 
 A lightweight in-memory database library written in C that provides table creation, data manipulation, and formatted ASCII table output capabilities.
@@ -126,4 +126,4 @@ This library implements robust memory management:
 2. Run with AddressSanitizer for memory checking
 3. Follow existing code style and patterns
 4. Add tests for new functionality
-```
+
