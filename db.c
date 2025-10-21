@@ -5,7 +5,7 @@
 #include "db.h"
 
 #define MAX_COLS 10
-#define __offsetof(structure, member)  ((size_t)&(((structure*)0)->member))
+#define __offsetof(structure, member) ((size_t)&(((structure *)0)->member))
 // typedef enum __type{
 //   INT,
 //   STRING,
@@ -36,51 +36,62 @@
 // 	size_t nrows;		// 32
 // } table_t;				// size = 40 bytes
 
-
-table_t *create_table (const char* name){
+table_t *create_table(const char *name)
+{
 	table_t *tab = malloc(sizeof(table_t));
-	if (tab == NULL)	return NULL;
+	if (tab == NULL)
+		return NULL;
 	tab->table_name = strdup(name);
-	tab->ncols		= 0;
-	tab->nrows		= 0;
-	tab->cols		= malloc(sizeof(col_t) * MAX_COLS);
-	tab->rows		= NULL;
+	tab->ncols = 0;
+	tab->nrows = 0;
+	tab->cols = malloc(sizeof(col_t) * MAX_COLS);
+	tab->rows = NULL;
 	return tab;
 }
 
-void add_column(table_t *table, const char *name, type_t type){
-	if (table->ncols < MAX_COLS){
+void add_column(table_t *table, const char *name, type_t type)
+{
+	if (table->ncols < MAX_COLS)
+	{
 		table->cols[table->ncols].col_name = strdup(name);
 		table->cols[table->ncols].type = type;
-	table->ncols++;
+		table->ncols++;
 	}
 }
 
-void add_row(table_t *table, val_t *vals){
+void add_row(table_t *table, val_t *vals)
+{
 	table->nrows++;
-	table->rows = realloc(table->rows, sizeof(row_t) * table->nrows );
-	table->rows[table->nrows-1].val = malloc(sizeof(val_t) * table->ncols);
-	for (size_t i = 0; i < table->ncols; i++){
-		table->rows[table->nrows-1].val[i] = vals[i];
+	table->rows = realloc(table->rows, sizeof(row_t) * table->nrows);
+	table->rows[table->nrows - 1].val = malloc(sizeof(val_t) * table->ncols);
+	for (size_t i = 0; i < table->ncols; i++)
+	{
+		table->rows[table->nrows - 1].val[i] = vals[i];
 		// memcpy(table->rows[table->nrows-1].val, vals, sizeof(val_t));
-		if (table->cols[i].type == STRING && vals[i].string != NULL){
-			table->rows[table->nrows-1].val[i].string = strdup(vals[i].string);
+		if (table->cols[i].type == STRING && vals[i].string != NULL)
+		{
+			table->rows[table->nrows - 1].val[i].string = strdup(vals[i].string);
 		}
 	}
 }
 
 /*void destroy_rows(row_t *rows){
 }*/
-void destroy_table(table_t *table){
-	for (size_t i = 0; i < table->nrows; i++){
-		for (size_t j = 0; j < table->ncols; j++){
-			if (table->cols[j].type == STRING && table->rows[i].val[j].string != NULL){
+void destroy_table(table_t *table)
+{
+	for (size_t i = 0; i < table->nrows; i++)
+	{
+		for (size_t j = 0; j < table->ncols; j++)
+		{
+			if (table->cols[j].type == STRING && table->rows[i].val[j].string != NULL)
+			{
 				free(table->rows[i].val[j].string);
 			}
 		}
 		free(table->rows[i].val);
 	}
-	for (size_t i = 0; i < table->ncols; i++){
+	for (size_t i = 0; i < table->ncols; i++)
+	{
 		free(table->cols[i].col_name);
 	}
 	free(table->cols);
@@ -90,18 +101,23 @@ void destroy_table(table_t *table){
 }
 
 // #define LEN	20
-void print(table_t *table){
-	char* headers[MAX_COLUMNS];
-	for (size_t i = 0; i < table->ncols; i++){
-		headers[i]	= malloc(sizeof(char)*MAX_COLUMNS);
+void print(table_t *table)
+{
+	char *headers[MAX_COLUMNS];
+	for (size_t i = 0; i < table->ncols; i++)
+	{
+		headers[i] = malloc(sizeof(char) * MAX_COLUMNS);
 		strcpy(headers[i], table->cols[i].col_name);
 	}
 	char *data[MAX_COLUMNS][MAX_COLUMNS];
 
-	for (size_t i = 0; i < table->nrows; i++){
-		for (size_t j = 0; j < table->ncols; j++){
+	for (size_t i = 0; i < table->nrows; i++)
+	{
+		for (size_t j = 0; j < table->ncols; j++)
+		{
 			data[i][j] = malloc(MAX_COLUMNS_WIDTH);
-			if (data[i][j]){
+			if (data[i][j])
+			{
 				if (table->cols[j].type == INT)
 					snprintf(data[i][j], MAX_COLUMNS_WIDTH, "%d", table->rows[i].val[j].i);
 				else if (table->cols[j].type == FLOAT)
@@ -114,7 +130,10 @@ void print(table_t *table){
 		}
 	}
 
-	print_table((const char**)headers, table->ncols, data, table->nrows);
-	for (size_t i = 0; i < table->ncols; i++)	free(headers[i]);
-	for (size_t i = 0; i < table->nrows; i++)	for (size_t j = 0; j < table->ncols; j++)	free(data[i][j]);
+	print_table((const char **)headers, table->ncols, data, table->nrows);
+	for (size_t i = 0; i < table->ncols; i++)
+		free(headers[i]);
+	for (size_t i = 0; i < table->nrows; i++)
+		for (size_t j = 0; j < table->ncols; j++)
+			free(data[i][j]);
 }
