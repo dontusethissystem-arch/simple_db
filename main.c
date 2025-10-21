@@ -65,7 +65,7 @@ void test_case_4()
     add_column(single, "id", INT);
     add_column(single, "description", STRING);
 
-    val_t vals[2] = {{.i = 100}, {.string = "row"}};
+    val_t vals[2] = {{.i = 100}, {.string = "Only one row"}};
     add_row(single, vals);
 
     print(single);
