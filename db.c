@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "ascii_db/ascii_table.c"
+#include "ascii_db/ascii_table.h"
 
 
 #define MAX_COLS 10
