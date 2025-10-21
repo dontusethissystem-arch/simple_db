@@ -106,9 +106,11 @@ void print(table_t *table)
 	char *headers[MAX_COLUMNS];
 	for (size_t i = 0; i < table->ncols; i++)
 	{
-		headers[i] = malloc(sizeof(char) * MAX_COLUMNS);
-		strcpy(headers[i], table->cols[i].col_name);
-	}
+    size_t len = strlen(table->cols[i].col_name) + 1;
+		headers[i] = malloc(len);
+	  //snprintf(headers[i], len, "%s", table->cols[i].col_name);
+	  strcpy(headers[i], table->cols[i].col_name);
+  }
 	char *data[MAX_COLUMNS][MAX_COLUMNS];
 
 	for (size_t i = 0; i < table->nrows; i++)
